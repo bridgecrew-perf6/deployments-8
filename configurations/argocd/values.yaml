@@ -170,7 +170,7 @@ server:
     sourceRepos:
     - '*'
     destinations:
-    - namespace: argocd
+    - namespace: '*'
       server: https://kubernetes.default.svc
     clusterResourceWhitelist:
     - group: '*'
@@ -193,7 +193,7 @@ server:
     sourceRepos:
     - '*'
     destinations:
-    - namespace: argocd
+    - namespace: '*'
       server: https://kubernetes.default.svc
     clusterResourceWhitelist: []
     namespaceResourceBlacklist:
