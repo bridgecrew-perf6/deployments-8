@@ -170,6 +170,8 @@ server:
     sourceRepos:
     - '*'
     destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
     - namespace: '*'
       server: https://kubernetes.default.svc
     clusterResourceWhitelist:
