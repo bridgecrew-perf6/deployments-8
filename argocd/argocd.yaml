@@ -66,11 +66,13 @@ server:
     - resources-finalizer.argocd.argoproj.io
     project: management
     source:
-      repoURL: https://github.com/davidcharbonnier/deployments.git
-      targetRevision: HEAD
-      path: argocd
-      directory:
-        recurse: true
+      chart: argo-cd
+      repoURL: https://argoproj.github.io/argo-helm
+      targetRevision: 4.8.2
+      helm:
+        releaseName: argocd
+        valueFiles:
+        - https://raw.githubusercontent.com/davidcharbonnier/deployments/master/argocd/argocd.yaml
     destination:
       server: https://kubernetes.default.svc
       namespace: argocd
