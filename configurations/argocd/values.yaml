@@ -78,7 +78,7 @@ server:
       namespace: argocd
     syncPolicy:
       automated:
-        prune: false
+        prune: true
         selfHeal: true
     ignoreDifferences: []
     info:
@@ -102,7 +102,7 @@ server:
       namespace: argocd
     syncPolicy:
       automated:
-        prune: false
+        prune: true
         selfHeal: true
     ignoreDifferences: []
     info:
@@ -126,7 +126,7 @@ server:
       namespace: argocd
     syncPolicy:
       automated:
-        prune: false
+        prune: true
         selfHeal: true
     ignoreDifferences: []
     info:
