@@ -155,8 +155,6 @@ server:
       kind: LimitRange
     - group: ''
       kind: NetworkPolicy
-      orphanedResources: {}
-      roles: []
     namespaceResourceWhitelist:
     - '*'
     orphanedResources: {}
@@ -183,8 +181,6 @@ server:
       kind: LimitRange
     - group: ''
       kind: NetworkPolicy
-      orphanedResources: {}
-      roles: []
     namespaceResourceWhitelist:
     - '*'
     orphanedResources: {}
@@ -211,8 +207,6 @@ server:
       kind: LimitRange
     - group: ''
       kind: NetworkPolicy
-      orphanedResources: {}
-      roles: []
     namespaceResourceWhitelist:
     - '*'
     orphanedResources: {}
