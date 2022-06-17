@@ -156,7 +156,8 @@ server:
     - group: ''
       kind: NetworkPolicy
     namespaceResourceWhitelist:
-    - '*'
+    - group: '*'
+      kind: '*'
     orphanedResources: {}
     roles: []
     syncWindows: []
@@ -182,7 +183,8 @@ server:
     - group: ''
       kind: NetworkPolicy
     namespaceResourceWhitelist:
-    - '*'
+    - group: '*'
+      kind: '*'
     orphanedResources: {}
     roles: []
     syncWindows: []
@@ -208,7 +210,8 @@ server:
     - group: ''
       kind: NetworkPolicy
     namespaceResourceWhitelist:
-    - '*'
+    - group: '*'
+      kind: '*'
     orphanedResources: {}
     roles: []
     syncWindows: []
