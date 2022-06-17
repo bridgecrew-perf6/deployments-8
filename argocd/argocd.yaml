@@ -149,14 +149,10 @@ server:
     destinations:
     - namespace: argocd
       server: https://kubernetes.default.svc
-    clusterResourceWhitelist: []
-    namespaceResourceBlacklist:
-    - group: ''
-      kind: ResourceQuota
-    - group: ''
-      kind: LimitRange
-    - group: ''
-      kind: NetworkPolicy
+    clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+    namespaceResourceBlacklist: []
     namespaceResourceWhitelist:
     - group: '*'
       kind: '*'
@@ -176,14 +172,10 @@ server:
     destinations:
     - namespace: argocd
       server: https://kubernetes.default.svc
-    clusterResourceWhitelist: []
-    namespaceResourceBlacklist:
-    - group: ''
-      kind: ResourceQuota
-    - group: ''
-      kind: LimitRange
-    - group: ''
-      kind: NetworkPolicy
+    clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+    namespaceResourceBlacklist: []
     namespaceResourceWhitelist:
     - group: '*'
       kind: '*'
