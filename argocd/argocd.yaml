@@ -1,0 +1,224 @@
+redis-ha:
+  enabled: true
+
+controller:
+  enableStatefulSet: true
+
+server:
+  # -- The number of server pods to run
+  replicas: 2
+
+  # -- Additional command line arguments to pass to Argo CD server
+  extraArgs:
+  - --insecure
+
+  env:
+  - name: ARGOCD_API_SERVER_REPLICAS
+    value: '2'
+
+  ingress:
+    # -- Enable an ingress resource for the Argo CD server
+    enabled: true
+
+    # -- Additional ingress annotations
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+    # -- List of ingress hosts
+    ## Argo Ingress.
+    ## Hostnames must be provided if Ingress is enabled.
+    ## Secrets must be manually created in the namespace
+    hosts:
+    - argocd.davidcharbonnier.fr
+
+    # -- List of ingress paths
+    paths:
+      - /
+    # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
+    pathType: Prefix
+
+    # -- Ingress TLS configuration
+    tls:
+    - secretName: argocd-tls-certificate
+      hosts:
+        - argocd.davidcharbonnier.fr
+
+  # -- Manage Argo CD configmap (Declarative Setup)
+  ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+  configEnabled: true
+  # -- [General Argo CD configuration]
+  # @default -- See [values.yaml]
+  config:
+    # DEPRECATED: Please instead use configs.credentialTemplates and configs.repositories
+    repositories: |
+      - type: helm
+        url: https://argoproj.github.io/argo-helm
+        name: argo
+    # -- Deploy Argo CD Applications within this helm release
+  # @default -- `[]` (See [values.yaml])
+  ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
+  additionalApplications:
+  - name: argocd
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    project: management
+    source:
+      repoURL: https://github.com/davidcharbonnier/deployments.git
+      targetRevision: HEAD
+      path: argocd
+      directory:
+        recurse: true
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: argocd
+    syncPolicy:
+      automated:
+        prune: false
+        selfHeal: true
+    ignoreDifferences: []
+    info:
+    - name: url
+      value: https://github.com/davidcharbonnier/deployments.git
+  - name: applications
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    project: management
+    source:
+      repoURL: https://github.com/davidcharbonnier/deployments.git
+      targetRevision: HEAD
+      path: applications
+      directory:
+        recurse: true
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: argocd
+    syncPolicy:
+      automated:
+        prune: false
+        selfHeal: true
+    ignoreDifferences: []
+    info:
+    - name: url
+      value: https://github.com/davidcharbonnier/deployments.git
+  - name: tools
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    project: management
+    source:
+      repoURL: https://github.com/davidcharbonnier/deployments.git
+      targetRevision: HEAD
+      path: tools
+      directory:
+        recurse: true
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: argocd
+    syncPolicy:
+      automated:
+        prune: false
+        selfHeal: true
+    ignoreDifferences: []
+    info:
+    - name: url
+      value: https://github.com/davidcharbonnier/deployments.git
+  
+  # -- Deploy Argo CD Projects within this helm release
+  # @default -- `[]` (See [values.yaml])
+  ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/
+  additionalProjects:
+  - name: management
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    description: Management project
+    sourceRepos:
+    - '*'
+    destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+    clusterResourceWhitelist: []
+    namespaceResourceBlacklist:
+    - group: ''
+      kind: ResourceQuota
+    - group: ''
+      kind: LimitRange
+    - group: ''
+      kind: NetworkPolicy
+      orphanedResources: {}
+      roles: []
+    namespaceResourceWhitelist:
+    - '*'
+    orphanedResources: {}
+    roles: []
+    syncWindows: []
+    signatureKeys: []
+  - name: tools
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    description: Tools project
+    sourceRepos:
+    - '*'
+    destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+    clusterResourceWhitelist: []
+    namespaceResourceBlacklist:
+    - group: ''
+      kind: ResourceQuota
+    - group: ''
+      kind: LimitRange
+    - group: ''
+      kind: NetworkPolicy
+      orphanedResources: {}
+      roles: []
+    namespaceResourceWhitelist:
+    - '*'
+    orphanedResources: {}
+    roles: []
+    syncWindows: []
+    signatureKeys: []
+  - name: applications
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    description: Applications project
+    sourceRepos:
+    - '*'
+    destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+    clusterResourceWhitelist: []
+    namespaceResourceBlacklist:
+    - group: ''
+      kind: ResourceQuota
+    - group: ''
+      kind: LimitRange
+    - group: ''
+      kind: NetworkPolicy
+      orphanedResources: {}
+      roles: []
+    namespaceResourceWhitelist:
+    - '*'
+    orphanedResources: {}
+    roles: []
+    syncWindows: []
+    signatureKeys: []
+
+repoServer:
+  replicas: 2
