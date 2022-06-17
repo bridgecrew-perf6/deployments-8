@@ -72,7 +72,7 @@ server:
       helm:
         releaseName: argocd
         valueFiles:
-        - https://raw.githubusercontent.com/davidcharbonnier/deployments/master/argocd/argocd.yaml
+        - https://raw.githubusercontent.com/davidcharbonnier/deployments/master/configurations/argocd/values.yaml
     destination:
       server: https://kubernetes.default.svc
       namespace: argocd
