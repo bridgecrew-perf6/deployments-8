@@ -1,0 +1,8 @@
+{{- range .Values.issuers }}
+apiVersion: cert-manager.io/v1
+kind: {{ .kind }}
+metadata:
+  name: {{ .name }}
+spec:
+  {{ .spec | ident 2 }}
+{{- end }}
