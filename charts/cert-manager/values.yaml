@@ -9,7 +9,7 @@ cert-manager:
 issuers:
 - name: letsencrypt-prod
   kind: ClusterIssuer
-  spec:
+  spec: |
     acme:
     # The ACME server URL
     server: https://acme-v02.api.letsencrypt.org/directory
@@ -25,7 +25,7 @@ issuers:
           class: nginx
 - name: letsencrypt-prod
   kind: ClusterIssuer
-  spec:
+  spec: |
     acme:
     # The ACME server URL
     server: https://acme-staging-v02.api.letsencrypt.org/directory
