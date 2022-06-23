@@ -4,5 +4,5 @@ kind: {{ .kind }}
 metadata:
   name: {{ .name }}
 spec:
-  {{ .spec | ident 2 }}
+  {{ .spec | indent 2 }}
 {{- end }}
